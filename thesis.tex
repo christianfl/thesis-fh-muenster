@@ -1,0 +1,248 @@
+\documentclass[12pt,a4paper,oneside,ngerman]{report}
+
+\usepackage[a4paper,left=4.5cm,right=2.5cm,top=2.5cm,bottom=2cm]{geometry}
+\usepackage{fancyhdr} % Kopf- und Fußzeile
+\usepackage[onehalfspacing]{setspace} % 1,5 facher Zeilenabstand
+\usepackage{graphicx} % Bilder einbinden
+\usepackage{titling} % Referenzen auf Titel / Autor etc. im Text
+\usepackage[hidelinks]{hyperref} % Hyperlinks im Inhaltsverzeichnis
+\usepackage[german]{babel} % Übersetzungen
+\usepackage{acronym} % Abkürzungsverzeichnis
+\usepackage[backend=biber,style=LNI]{biblatex} % Literaturverzeichnis
+\usepackage{csquotes} % Babel und Biblatex Sprachanpassungen
+\usepackage{framed} % Kästen für den Sperrvermerk
+\addbibresource{literature.bib}
+
+% V A R I A B L E N
+%---------------------------------------------
+\author{<Hier Autor eintragen>}
+\title{<Hier Titel eintragen>}
+\newcommand{\degreeCourse}{<Hier Studiengang eintragen>}
+\newcommand{\studentNumber}{<Hier Matrikelnummer eintragen>}
+\newcommand{\company}{<Hier Unternehmen eintragen>}
+\newcommand{\filingDate}{<Hier Abgabedatum eintragen>}
+\newcommand{\firstExaminer}{<Hier Erstprüfer eintragen>}
+\newcommand{\secondExaminer}{<Hier Zweitprüfer eintragen>}
+\providetoggle{blockingNotice}
+\settoggle{blockingNotice}{true} % Sperrvermerk anzeigen oder ausblenden
+
+\setlength{\headheight}{14.5pt} % Damit fancyhdr keine Fehlermeldung generiert
+\setlength{\emergencystretch}{1.5em} % Für passende Wortumbrüche
+
+% Header und Footer Definitionen
+%---------------------------------------------
+\fancypagestyle{runningTitleAndPageNumbers}{
+    \fancyhf{}
+    \fancyhead[R]{\nouppercase{\leftmark}}
+    \fancyfoot[R]{\thepage}
+    \fancypagestyle{plain}{%
+        \fancyhf{}%
+        \fancyhead[R]{\nouppercase{\leftmark}}
+        \fancyfoot[R]{\thepage}%
+    }
+}
+
+\fancypagestyle{onlyPageNumbers}{
+    \fancyhf{}
+    \fancyfoot[C]{\thepage}
+    \fancypagestyle{plain}{%
+        \fancyhf{}%
+        \fancyfoot[R]{\thepage}%
+        \renewcommand{\headrulewidth}{0pt}
+    }
+}
+
+% Standardformate überschreiben
+%---------------------------------------------
+\makeatletter
+    % Format der Chapterüberschriften überschreiben
+    \renewcommand*\@makechapterhead[1]{
+        {
+            \parindent\z@\raggedright\normalfont
+            \Huge\bfseries
+            \thechapter\hspace{12px} #1\par
+            \nobreak\vskip 10\p@
+        }
+    }
+    \renewcommand*\@makeschapterhead[1]{
+        {
+            \parindent\z@\raggedright\normalfont
+            \Huge\bfseries
+            #1
+            \nobreak\vskip 10\p@
+        }
+    }
+
+    % Margin bei Abbildungs- und Tabellenverzeichnis entfernen
+    \renewcommand*\l@figure{\@dottedtocline{1}{0em}{2.3em}} % Default: 1.5em/2.3em
+    \let\l@table\l@figure
+\makeatother
+
+\newcommand*{\fullref}[1]{\hyperref[{#1}]{\ref*{#1} \nameref*{#1}}} % Referenzen auf Kapitel und Name mit \fullref
+
+% D O K U M E N T E N A N F A N G
+%---------------------------------------------
+\pagestyle{onlyPageNumbers}
+\begin{document}
+
+% D E C K B L A T T
+%---------------------------------------------
+\newgeometry{margin=3cm} % Seitenränder für Deckblatt anders
+
+\begin{titlepage}
+    \begin{flushleft}
+        \includegraphics[scale=1.25]{res/fh_logo.pdf}
+    \end{flushleft}
+
+    \vspace*{\stretch{1.0}}
+    \begin{center}
+        \Large\textbf\thetitle\\
+        \vspace{1em}
+        \large{Abschlussarbeit im Studiengang {\degreeCourse}}\\
+        {am Fachbereich Wirtschaft der FH Münster}
+
+    \end{center}
+    \vspace*{\stretch{2.0}}
+
+    \begin{flushleft}
+        \begin{tabular}{l l}
+            {Vorgelegt von:} & \theauthor \\
+            {Matrikelnummer:} & \studentNumber \\
+            {Erstprüfer:} & {\firstExaminer} \\
+            {Zweitprüfer:} & {\secondExaminer} \\
+            {Unternehmen:} & {\company} \\
+            {Abgabedatum:} & {\filingDate} \\
+        \end{tabular}
+    \end{flushleft}
+\end{titlepage}
+
+\restoregeometry % Seitenränder auf Standard setzen
+
+% A B S T R A C T
+%---------------------------------------------
+\chapter*{Abstract}
+\pagenumbering{Roman}
+
+% \input{helpers/loremipsum}
+
+% S P E R R V E R M E R K
+%---------------------------------------------
+\iftoggle{blockingNotice}{
+    \chapter*{Sperrvermerk}
+
+    \noindent{Die vorliegende Bachelorarbeit mit dem Titel:}
+
+    \begin{framed}\noindent\thetitle\end{framed}
+
+    \noindent{beinhaltet interne und vertrauliche Informationen der Firma:}
+
+    \begin{framed}
+        \noindent\company{ .}
+    \end{framed}
+
+    \noindent{Die Weitergabe des Inhalts der Arbeit und eventuell beiliegender
+    Zeichnungen und Daten, im Gesamten oder in Teilen, ist grundsätzlich
+    untersagt. Es dürfen keinerlei Kopien oder Abschriften – auch in
+    digitaler Form – gefertigt werden. Ausnahmen bedürfen der
+    schriftlichen Genehmigung der o.g. Firma.}
+
+    \vspace{1.5cm}\input{helpers/signaturefield}
+}
+
+% I N H A L T S V E R Z E I C H N I S
+%---------------------------------------------
+\tableofcontents
+
+% A B K Ü R Z U N G S V E R Z E I C H N I S
+%---------------------------------------------
+\chapter*{Abkürzungsverzeichnis}
+\vspace{0.8em}
+\addcontentsline{toc}{chapter}{Abkürzungsverzeichnis}
+
+\begin{acronym}[<Länge Abkürzung>...] % Abstand zwischen Abkürzung und Erklärung durch Angabe der längsten Abkürzung + 3 Zeichen
+    \acro{ABC}[ABC]{Aaaa Beee Ceee}\\
+\end{acronym}
+
+% A B B I L D U N G S V E R Z E I C H N I S
+%---------------------------------------------
+\listoffigures
+\addcontentsline{toc}{chapter}{Abbildungsverzeichnis}
+
+% T A B E L L E N V E R Z E I C H N I S
+%---------------------------------------------
+\listoftables
+\addcontentsline{toc}{chapter}{Tabellenverzeichnis}
+
+% T E X T T E I L
+%---------------------------------------------
+
+% KAPITEL 1
+\chapter{Kapitel 1}
+\pagenumbering{arabic}
+\pagestyle{runningTitleAndPageNumbers}
+
+\input{helpers/loremipsum}
+
+\section{Abschnitt 1}
+
+\input{helpers/loremipsum}
+
+\subsection{Unterabschnitt 1}
+
+\input{helpers/loremipsum}
+
+\subsection{Unterabschnitt 2}
+
+\input{helpers/loremipsum}
+
+\section{Abschnitt 2}
+
+\input{helpers/loremipsum}
+
+% KAPITEL 2
+\chapter{Kapitel 2}
+
+\input{helpers/loremipsum}
+
+% L I T E R A T U R V E R Z E I C H N I S
+%---------------------------------------------
+\begingroup
+    \setlength{\emergencystretch}{3em} % Damit Einträge umgebrochen werden
+    \printbibliography
+\endgroup
+
+\addcontentsline{toc}{chapter}{Literaturverzeichnis}
+
+% A N H A N G
+%---------------------------------------------
+\newcommand{\attachment}{Anhang}
+\chapter*{\attachment}
+\addcontentsline{toc}{chapter}{\attachment}
+\markboth{\attachment}{}
+\setcounter{section}{0} % Fange bei den Sections wieder neu an zu zählen
+\renewcommand{\thesection}{\Alph{section}} % Nummerierung von Section formatieren 
+\addtocontents{toc}{\setcounter{tocdepth}{0}} % Zeige Chapter und Sections nicht im Inhaltsverzeichnis
+
+\section{Erster Anhang}
+
+\input{helpers/loremipsum}
+
+\section{Zweiter Anhang}
+
+\input{helpers/loremipsum}
+
+\addtocontents{toc}{\setcounter{tocdepth}{2}} % Zeige Chapter und Sections wieder normal im Inhaltsverzeichnis
+
+% E I D E S S T A T T S E R K L Ä R U N G
+%---------------------------------------------
+\chapter*{Eidesstattliche Erklärung}
+\thispagestyle{empty} % Keine Seitennnummerierung und Kopf-/Fußzeile
+
+Ich versichere, dass ich diese schriftliche Arbeit selbstständig
+angefertigt, alle Hilfen und Hilfsmittel angegeben und alle wörtlich
+oder im Sinne nach aus Veröffentlichungen oder anderen Quellen,
+insbesondere dem Internet entnommene Inhalte, kenntlich gemacht habe.
+
+\vspace{1.5cm}\input{helpers/signaturefield}
+
+\end{document}
