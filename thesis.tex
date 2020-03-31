@@ -15,14 +15,14 @@
 
 % V A R I A B L E N
 %---------------------------------------------
-\author{<Hier Autor eintragen>}
-\title{<Hier Titel eintragen>}
-\newcommand{\degreeCourse}{<Hier Studiengang eintragen>}
-\newcommand{\studentNumber}{<Hier Matrikelnummer eintragen>}
-\newcommand{\company}{<Hier Unternehmen eintragen>}
-\newcommand{\filingDate}{<Hier Abgabedatum eintragen>}
-\newcommand{\firstExaminer}{<Hier Erstprüfer eintragen>}
-\newcommand{\secondExaminer}{<Hier Zweitprüfer eintragen>}
+\author{-Hier Autor eintragen/-}
+\title{-Hier Titel eintragen/-}
+\newcommand{\degreeCourse}{-Hier Studiengang eintragen/-}
+\newcommand{\studentNumber}{-Hier Matrikelnummer eintragen/-}
+\newcommand{\company}{-Hier Unternehmen eintragen/-}
+\newcommand{\filingDate}{-Hier Abgabedatum eintragen/-}
+\newcommand{\firstExaminer}{-Hier Erstprüfer eintragen/-}
+\newcommand{\secondExaminer}{-Hier Zweitprüfer eintragen/-}
 \providetoggle{blockingNotice}
 \settoggle{blockingNotice}{true} % Sperrvermerk anzeigen oder ausblenden
 
@@ -31,10 +31,19 @@
 
 % Header und Footer Definitionen
 %---------------------------------------------
-\fancypagestyle{runningTitleAndPageNumbers}{
+\fancypagestyle{onlyPageNumbers}{ % Zeigt nur Footer mit Seitenzahl rechts
     \fancyhf{}
-    \fancyhead[R]{\nouppercase{\leftmark}}
-    \fancyfoot[R]{\thepage}
+    \fancyfoot[C]{\thepage}
+    \fancypagestyle{plain}{%
+        \fancyhf{}%
+        \fancyfoot[R]{\thepage}%
+        \renewcommand{\headrulewidth}{0pt}
+    }
+}
+
+\fancypagestyle{toc}{ % Zeigt Footer + Header auf zweiter Seite (ToC)
+    \fancyhf{}
+    \fancyfoot[C]{\thepage}
     \fancypagestyle{plain}{%
         \fancyhf{}%
         \fancyhead[R]{\nouppercase{\leftmark}}
@@ -42,13 +51,15 @@
     }
 }
 
-\fancypagestyle{onlyPageNumbers}{
+\fancypagestyle{runningTitleAndPageNumbers}{ % Zeigt Header + Footer
     \fancyhf{}
-    \fancyfoot[C]{\thepage}
+    \fancyhead[R]{\nouppercase{\leftmark}}
+    \fancyfoot[R]{\thepage}
     \fancypagestyle{plain}{%
         \fancyhf{}%
+        %\renewcommand{\headrulewidth}{0pt} % Kommentiere entweder diese oder die nächste Zeile aus: Header auf der ersten Seite eines Kapitels anzeigen oder nicht
+        \fancyhead[R]{\nouppercase{\leftmark}}
         \fancyfoot[R]{\thepage}%
-        \renewcommand{\headrulewidth}{0pt}
     }
 }
 
@@ -151,11 +162,13 @@
 
 % I N H A L T S V E R Z E I C H N I S
 %---------------------------------------------
-\tableofcontents
+\tableofcontents{\protect\thispagestyle{plain}}
+%\pagestyle{toc} % Damit auf der zweiten Seite im ToC ein Header angezeigt wird, auskommentieren wenn ToC mehrseitig
 
 % A B K Ü R Z U N G S V E R Z E I C H N I S
 %---------------------------------------------
 \chapter*{Abkürzungsverzeichnis}
+\pagestyle{onlyPageNumbers}
 \vspace{0.8em}
 \addcontentsline{toc}{chapter}{Abkürzungsverzeichnis}
 
